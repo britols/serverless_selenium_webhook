@@ -1,0 +1,29 @@
+org: lordsyberian
+app: docker-selenium-lambda
+service: docker-selenium-lambda
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'prod'}
+  region: ${env:AWS_REGION, 'us-east-2'}
+  environment:
+      DEST_URL: 'https://ais.usvisa-info.com/en-ca/niv/users/sign_in'
+      DEST_USER: ${param:user-email}
+      DEST_PWD: ${param:user-psd}
+      DEST_WHOOK: ${param:whook}
+  ecr:
+    images:
+      img:
+        path: ./
+        platform: linux/amd64
+  deploymentMethod: direct
+
+functions:
+  demo:
+    timeout: 60
+    # If you experience any errors such as Chrome crashing or not being available you might need to increase the storage available to your Lambda Function. See #102
+    memorySize: 2048
+    image:
+      name: img
+
+  
