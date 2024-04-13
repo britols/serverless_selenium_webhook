@@ -7,7 +7,7 @@ provider:
   stage: ${opt:stage, 'prod'}
   region: ${env:AWS_REGION, 'us-east-2'}
   environment:
-      DEST_URL: 'https://ais.usvisa-info.com/en-ca/niv/users/sign_in'
+      DEST_URL: ${param:user-url}
       DEST_USER: ${param:user-email}
       DEST_PWD: ${param:user-psd}
       DEST_WHOOK: ${param:whook}
