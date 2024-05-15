@@ -72,7 +72,7 @@ def handler(event=None, context=None):
     
     df2 = df2.dropna(subset='Disp')
     
-    if not(df.empty):
+    if not(df2.empty):
         output_table2 = df2.to_json(orient="split")
         data2 = {
         "username" : "VISA good bot"
