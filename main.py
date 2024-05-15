@@ -13,6 +13,7 @@ USER = os.environ['DEST_USER']
 PWD = os.environ['DEST_PWD']
 URL = os.environ['DEST_URL']
 WEBHOOK = os.environ['DEST_WHOOK']
+WEBHOOK_FILTER = os.environ['DEST_WHOOK_FILTER']
 
 def handler(event=None, context=None):
     options = webdriver.ChromeOptions()
@@ -63,6 +64,26 @@ def handler(event=None, context=None):
     table = tables[1]
 
     df = pd.read_html(table.get_attribute('outerHTML'))
+
+    df2 = df[0]
+    df2.columns = ['Loc','Disp']
+    df2['Disp'] = pd.to_datetime(df2['Disp'],errors='coerce',format='%d %B, %Y')
+    df2['Update'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    df2 = df2.dropna(subset='Disp')
+    
+    if not(df.empty):
+        output_table2 = df2.to_json(orient="split")
+        data2 = {
+        "username" : "VISA good bot"
+        }
+        data2["embeds"] = [
+            {
+        "description" : output_table2,
+        "title" : "new Appointments found"
+            }
+        ]
+        result2 = requests.post(WEBHOOK_FILTER, json = data2)
 
     output_table=df[0].to_json(orient="split")
 

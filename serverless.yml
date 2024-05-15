@@ -11,6 +11,7 @@ provider:
       DEST_USER: ${param:user-email}
       DEST_PWD: ${param:user-psd}
       DEST_WHOOK: ${param:whook}
+      DEST_WHOOK_FILTER: ${param:whook-filter}
   ecr:
     images:
       img:
